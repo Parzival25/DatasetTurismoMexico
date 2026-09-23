@@ -1,0 +1,53 @@
+<?php
+
+return [
+    'accepted' => 'El campo :attribute debe ser aceptado.',
+    'alpha_dash' => 'El campo :attribute solo puede contener letras, números, guiones y guiones bajos.',
+    'array' => 'El campo :attribute debe ser una lista.',
+    'between' => [
+        'numeric' => 'El campo :attribute debe estar entre :min y :max.',
+        'string' => 'El campo :attribute debe tener entre :min y :max caracteres.',
+    ],
+    'boolean' => 'El campo :attribute debe ser verdadero o falso.',
+    'date' => 'El campo :attribute no es una fecha válida.',
+    'email' => 'El campo :attribute debe ser un correo válido.',
+    'exists' => 'El valor seleccionado en :attribute no existe.',
+    'image' => 'El archivo :attribute debe ser una imagen.',
+    'in' => 'El valor seleccionado en :attribute no es válido.',
+    'integer' => 'El campo :attribute debe ser un número entero.',
+    'max' => [
+        'array' => 'El campo :attribute no puede tener más de :max elementos.',
+        'file' => 'El archivo :attribute no puede pesar más de :max kilobytes.',
+        'numeric' => 'El campo :attribute no puede ser mayor que :max.',
+        'string' => 'El campo :attribute no puede tener más de :max caracteres.',
+    ],
+    'mimes' => 'El archivo :attribute debe ser de tipo: :values.',
+    'min' => [
+        'numeric' => 'El campo :attribute debe ser al menos :min.',
+        'string' => 'El campo :attribute debe tener al menos :min caracteres.',
+    ],
+    'numeric' => 'El campo :attribute debe ser un número.',
+    'regex' => 'El formato de :attribute no es válido.',
+    'required' => 'El campo :attribute es obligatorio.',
+    'required_with' => 'El campo :attribute es obligatorio cuando se indica :values.',
+    'string' => 'El campo :attribute debe ser texto.',
+    'unique' => 'Ya existe un registro con ese :attribute.',
+    'uploaded' => 'No se pudo subir el archivo :attribute.',
+
+    'attributes' => [
+        'nombre' => 'nombre',
+        'email' => 'correo',
+        'password' => 'contraseña',
+        'latitud' => 'latitud',
+        'longitud' => 'longitud',
+        'categorias' => 'categorías',
+        'subcategorias' => 'subcategorías',
+        'categoria_id' => 'categoría',
+        'fotos' => 'fotos',
+        'credito' => 'crédito',
+        'orden' => 'orden',
+        'periodo' => 'periodo',
+        'fecha' => 'fecha',
+        'icono' => 'icono',
+    ],
+];

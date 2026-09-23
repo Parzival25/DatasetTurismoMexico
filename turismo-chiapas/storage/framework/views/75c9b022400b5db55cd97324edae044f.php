@@ -1,0 +1,2 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="<?php echo e($tamano ?? 32); ?>" height="<?php echo e($tamano ?? 32); ?>" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#1c4a38"/><path d="M4 25l7-10 4 5 4-7 9 12z" fill="#0f8a8a"/><path d="M11 15l4 5 4-7 3 4" fill="none" stroke="#fbf8f2" stroke-width="1.6" stroke-linejoin="round"/><circle cx="23" cy="9" r="3.2" fill="#f2b134"/></svg>
+<?php /**PATH C:\Nuevo Proyecto turistico\turismo-chiapas\resources\views/parciales/logo.blade.php ENDPATH**/ ?>
