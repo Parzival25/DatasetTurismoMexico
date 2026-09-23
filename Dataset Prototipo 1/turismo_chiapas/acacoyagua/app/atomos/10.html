@@ -1,0 +1,305 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  
+  <!-- estilos personalizados--> 
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/estilos_sitios.css">
+  
+  <!-- Add jQuery library -->
+  <script type="text/javascript" src="../fancyfotos/lib/jquery-1.8.2.min.js"></script>
+
+  <!-- Add mousewheel plugin (this is optional) -->
+  <script type="text/javascript" src="../fancyfotos/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+  <!-- Add fancyBox main JS and CSS files -->
+  <script type="text/javascript" src="../fancyfotos/source/jquery.fancybox.js?v=2.1.3"></script>
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/jquery.fancybox.css?v=2.1.2" media="screen" />
+
+  <!-- Add Button helper (this is optional) -->
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+
+  <!-- Add Thumbnail helper (this is optional) -->
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+  <!-- Add Media helper (this is optional) -->
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      /*
+       *  Simple image gallery. Uses default settings
+       */
+
+      $('.fancybox').fancybox();
+
+      /*
+       *  Different effects
+       */
+
+      // Change title type, overlay closing speed
+      $(".fancybox-effects-a").fancybox({
+        helpers: {
+          title : {
+            type : 'outside'
+          },
+          overlay : {
+            speedOut : 0
+          }
+        }
+      });
+
+      // Disable opening and closing animations, change title type
+      $(".fancybox-effects-b").fancybox({
+        openEffect  : 'elastic',
+        closeEffect : 'elastic',
+
+        helpers : {
+          title : {
+            type : 'over'
+          }
+        }
+      });
+
+      // Set custom style, close if clicked, change title type and overlay color
+      $(".fancybox-effects-c").fancybox({
+        wrapCSS    : 'fancybox-custom',
+        closeClick : true,
+
+        openEffect : 'elastic',
+
+        helpers : {
+          title : {
+            type : 'inside'
+          },
+          overlay : {
+            css : {
+              'background' : 'rgba(238,238,238,0.85)'
+            }
+          }
+        }
+      });
+
+      // Remove padding, set opening and closing animations, close if clicked and disable overlay
+      $(".fancybox-effects-d").fancybox({
+        padding: 0,
+
+        openEffect : 'elastic',
+        openSpeed  : 150,
+
+        closeEffect : 'elastic',
+        closeSpeed  : 150,
+
+        closeClick : true,
+
+        helpers : {
+          overlay : null
+        }
+      });
+
+      /*
+       *  Button helper. Disable animations, hide close button, change title type and content
+       */
+
+      $('.fancybox-buttons').fancybox({
+        openEffect  : 'elastic',
+        closeEffect : 'elastic',
+
+        prevEffect : 'elastic',
+        nextEffect : 'elastic',
+
+        closeBtn  : false,
+
+        helpers : {
+          title : {
+            type : 'inside'
+          },
+          buttons : {}
+        },
+
+        afterLoad : function() {
+          this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+        }
+      });
+
+
+      /*
+       *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+       */
+
+      $('.fancybox-thumbs').fancybox({
+        prevEffect : 'elastic',
+        nextEffect : 'elastic',
+
+        closeBtn  : false,
+        arrows    : false,
+        nextClick : true,
+
+        helpers : {
+          thumbs : {
+            width  : 50,
+            height : 50
+          }
+        }
+      });
+
+      /*
+       *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+      */
+      $('.fancybox-media')
+        .attr('rel', 'media-gallery')
+        .fancybox({
+          openEffect : 'elastic',
+          closeEffect : 'elastic',
+          prevEffect : 'elastic',
+          nextEffect : 'elastic',
+
+          arrows : false,
+          helpers : {
+            media : {},
+            buttons : {}
+          }
+        });
+
+      /*
+       *  Open manually
+       */
+
+      $("#fancybox-manual-a").click(function() {
+        $.fancybox.open('1_b.jpg');
+      });
+
+      $("#fancybox-manual-b").click(function() {
+        $.fancybox.open({
+          href : 'iframe.html',
+
+          type : 'iframe',
+          padding : 5
+        });
+      });
+
+      $("#fancybox-manual-c").click(function() {
+        $.fancybox.open([
+          {
+            href : '1_b.jpg',
+            title : 'My title'
+          }, {
+            href : '2_b.jpg',
+            title : '2nd title'
+          }, {
+            href : '3_b.jpg'
+          }
+        ], {
+          helpers : {
+            thumbs : {
+              width: 75,
+              height: 50
+            }
+          }
+        });
+      });
+
+
+    });
+  </script>
+  <style type="text/css">
+    .fancybox-custom .fancybox-skin {
+      box-shadow: 0 0 50px #222;
+    }
+  </style>
+
+
+
+  
+</head>
+<body>
+
+<div id="principal3">
+<!--
+  <div class="view_port">
+    <div id="titulo" class="polling_message"> <p> Aguas Termales </p></div>
+    <div class="cylon_eye"></div>
+  </div>
+  -->
+  <div id="titulo"> <p> El Encuentro </p></div>
+    
+
+  <div id="atomo"> 
+  
+      
+    
+      <div class="tabmax">
+         <div class="tab">
+           <input type="radio" id="tab-1" name="tab-group-1" checked/>
+           <label for="tab-1">Descripci&oacute;n</label>
+           
+           
+           <div class="content"> 
+          <p>ubicado entre los cerros del municipio de acacoyagua  este maravilloso lugar que es muy famoso entre los lugareños debido a que es la unión del rio cacaluta siendo el afluente más grande de acacoyagua, es uno de los lugares preferidos por las personas de este lugar para practicar la pesca en las aguas dulces de este rio debido a su gran diversidad de especies que este tiene y como una de las principales actividades que se realiza en el verano.</p>
+          <p>Los peces que los lugareños atrapan en estas aguas son el bagre, la mojarra (que son de diversas especies), sardina, el camaron (de varios tipos que existen en estas aguas),  la vieja, la  ñola, la chupa piedra, el sambuco, el pupo, el popoyote, el huerache (pez raya de agua dulce), el cangrejo, la anguila y cuchilla (águilas de agua dulce), el armado, siendo un platillo común para estas personas  y las principales especies que son abundantes en estas aguas de los ríos del municipio y en especial las del rio cacaluta.
+              
+           </div>
+         </div>
+         <div class="tab">
+           <input type="radio" id="tab-2" name="tab-group-1">
+           <label for="tab-2">Localizaci&oacute;n</label>
+           
+           <div class="content">
+           
+            <p>Está ubicado aproximadamente a 10 Kilómetros de la cabecera municipal de acacoyagua,  cerca de la colonia Nueva jalapa.</p>
+            
+           </div>
+         </div>
+        <div class="tab">
+           <input type="radio" id="tab-3" name="tab-group-1">
+           <label for="tab-3">¿Como Llegar?</label>
+           
+           <div class="content"> 
+          
+          <p>Tome la carretera federal 200 Juchitán de Zaragoza - Tapachula, tomando el retorno que lleva a la cabecera municipal de acacoyagua se toma la Av. Vicente guerrero sur, atravesando la carretera costera despues siguiendo por la Av. Vicente guerrero Norte, tomando la calle Nuevo León Poniente, hacia la Colonia Nueva jalapa, continuando por el camino hasta llegar al Encuentro del rio cacaluta.</p>
+          <p>Puede tomar la carretera  Costera Tapachula - Juchitán de Zaragoza y tomar el desvió a la colonia Nueva jalapa que esta aproximadamente a 500 metros del Auto Hotel la Hacienda, siguiendo el camino que lleva al Encuentro del rio cacaluta o también el desvió por la ranchería la cadena, siguiendo por el camino que lleva directo al encuentro.</p>
+           </div>
+         </div>
+         
+         <div class="tab">
+           <input type="radio" id="tab-4" name="tab-group-1">
+           <label for="tab-4">Actividades</label>
+           
+           <div class="content"> 
+           <p>En el lugar usted puede practicar actividades como nadar en las aguas del encuentro, practicar la pesca local en las aguas del rio cacaluta, observar la flora y fauna que abundan en los alrededores y dentro del encuentro, contemplar y explorar el paisaje maravilloso, tomar fotografías y realizar caminatas en los alrededores que son buenas para la salud.</p>
+           </div>
+         </div>
+         
+      </div>
+      
+      <div id="imagenes">
+         
+          <div class="contenedorimg">  
+          <p>
+           <a class="fancybox" href="../fotos/a1001.jpg" data-fancybox-group="gallery" title="El Encuentro"><img src="../fotos/a1001p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a1002.jpg" data-fancybox-group="gallery" title="El Encuentro"><img src="../fotos/a1002p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a1003.jpg" data-fancybox-group="gallery" title="El Encuentro"><img src="../fotos/a1003p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a1004.jpg" data-fancybox-group="gallery" title="El Encuentro"><img src="../fotos/a1004p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a1005.jpg" data-fancybox-group="gallery" title="El Encuentro"><img src="../fotos/a1005p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a1006.jpg" data-fancybox-group="gallery" title="El Encuentro"><img src="../fotos/a1006p.jpg" alt="" /></a>
+          </p>    
+ 
+        </div>   
+    
+      </div>  
+  </div>
+    
+    <p class="efecto">Recomendaci&oacute;n: dar clic sobre las im&aacute;genes para verlas mejor</h1>
+</div>
+</body>
+</html>
+
+

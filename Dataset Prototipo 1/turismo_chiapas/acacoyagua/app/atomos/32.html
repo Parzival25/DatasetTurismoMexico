@@ -1,0 +1,304 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  
+  <!-- estilos personalizados--> 
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/estilos_sitios.css">
+  
+  <!-- Add jQuery library -->
+  <script type="text/javascript" src="../fancyfotos/lib/jquery-1.8.2.min.js"></script>
+
+  <!-- Add mousewheel plugin (this is optional) -->
+  <script type="text/javascript" src="../fancyfotos/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+  <!-- Add fancyBox main JS and CSS files -->
+  <script type="text/javascript" src="../fancyfotos/source/jquery.fancybox.js?v=2.1.3"></script>
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/jquery.fancybox.css?v=2.1.2" media="screen" />
+
+  <!-- Add Button helper (this is optional) -->
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+
+  <!-- Add Thumbnail helper (this is optional) -->
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+  <!-- Add Media helper (this is optional) -->
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      /*
+       *  Simple image gallery. Uses default settings
+       */
+
+      $('.fancybox').fancybox();
+
+      /*
+       *  Different effects
+       */
+
+      // Change title type, overlay closing speed
+      $(".fancybox-effects-a").fancybox({
+        helpers: {
+          title : {
+            type : 'outside'
+          },
+          overlay : {
+            speedOut : 0
+          }
+        }
+      });
+
+      // Disable opening and closing animations, change title type
+      $(".fancybox-effects-b").fancybox({
+        openEffect  : 'elastic',
+        closeEffect : 'elastic',
+
+        helpers : {
+          title : {
+            type : 'over'
+          }
+        }
+      });
+
+      // Set custom style, close if clicked, change title type and overlay color
+      $(".fancybox-effects-c").fancybox({
+        wrapCSS    : 'fancybox-custom',
+        closeClick : true,
+
+        openEffect : 'elastic',
+
+        helpers : {
+          title : {
+            type : 'inside'
+          },
+          overlay : {
+            css : {
+              'background' : 'rgba(238,238,238,0.85)'
+            }
+          }
+        }
+      });
+
+      // Remove padding, set opening and closing animations, close if clicked and disable overlay
+      $(".fancybox-effects-d").fancybox({
+        padding: 0,
+
+        openEffect : 'elastic',
+        openSpeed  : 150,
+
+        closeEffect : 'elastic',
+        closeSpeed  : 150,
+
+        closeClick : true,
+
+        helpers : {
+          overlay : null
+        }
+      });
+
+      /*
+       *  Button helper. Disable animations, hide close button, change title type and content
+       */
+
+      $('.fancybox-buttons').fancybox({
+        openEffect  : 'elastic',
+        closeEffect : 'elastic',
+
+        prevEffect : 'elastic',
+        nextEffect : 'elastic',
+
+        closeBtn  : false,
+
+        helpers : {
+          title : {
+            type : 'inside'
+          },
+          buttons : {}
+        },
+
+        afterLoad : function() {
+          this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+        }
+      });
+
+
+      /*
+       *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+       */
+
+      $('.fancybox-thumbs').fancybox({
+        prevEffect : 'elastic',
+        nextEffect : 'elastic',
+
+        closeBtn  : false,
+        arrows    : false,
+        nextClick : true,
+
+        helpers : {
+          thumbs : {
+            width  : 50,
+            height : 50
+          }
+        }
+      });
+
+      /*
+       *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+      */
+      $('.fancybox-media')
+        .attr('rel', 'media-gallery')
+        .fancybox({
+          openEffect : 'elastic',
+          closeEffect : 'elastic',
+          prevEffect : 'elastic',
+          nextEffect : 'elastic',
+
+          arrows : false,
+          helpers : {
+            media : {},
+            buttons : {}
+          }
+        });
+
+      /*
+       *  Open manually
+       */
+
+      $("#fancybox-manual-a").click(function() {
+        $.fancybox.open('1_b.jpg');
+      });
+
+      $("#fancybox-manual-b").click(function() {
+        $.fancybox.open({
+          href : 'iframe.html',
+
+          type : 'iframe',
+          padding : 5
+        });
+      });
+
+      $("#fancybox-manual-c").click(function() {
+        $.fancybox.open([
+          {
+            href : '1_b.jpg',
+            title : 'My title'
+          }, {
+            href : '2_b.jpg',
+            title : '2nd title'
+          }, {
+            href : '3_b.jpg'
+          }
+        ], {
+          helpers : {
+            thumbs : {
+              width: 75,
+              height: 50
+            }
+          }
+        });
+      });
+
+
+    });
+  </script>
+  <style type="text/css">
+    .fancybox-custom .fancybox-skin {
+      box-shadow: 0 0 50px #222;
+    }
+  </style>
+
+
+
+  
+</head>
+<body>
+
+<div id="principal2">
+<!--
+  <div class="view_port">
+    <div id="titulo" class="polling_message"> <p> Aguas Termales </p></div>
+    <div class="cylon_eye"></div>
+  </div>
+  -->
+  <div id="titulo"> <p> Unidad Deportiva de Acacoyagua </p></div>
+    
+
+  <div id="atomo"> 
+  
+      
+    
+      <div class="tabs3">
+         <div class="tab">
+           <input type="radio" id="tab-1" name="tab-group-1" checked/>
+           <label for="tab-1">Descripci&oacute;n</label>
+           
+           <div class="content"> 
+           <p>La unidad deportiva está ubicada en la cabecera municipal de acacoyagua, donde se realizan eventos deportivos de futbol, principalmente donde se reúnen jóvenes, niños, ancianos y familias completas donde se pueden practicar deportes como el futbol, basquetbol, voleibol, tenis, caminatas, para disfrutar de una paseo agradable o ser espectadores de los eventos que se realizan.</p>
+          <p>La unidad deportiva cuenta con canchas de usos múltiples para practicar el futbol rápido, el futbol soccer, basquetbol, voleibol y tenis, además cuenta con una placeta, baños públicos, vestidores, jardines, andadores, y también  cuenta con gradas para poder disfrutar de los eventos deportivos que se llevan a cabo en las canchas de este sitio, donde los equipos de futbol es conformada por las personas de los ejidos de Acacoyagua además equipos de municipios vecinos participan dentro de las liguillas de torneos que se realizan.</p>
+              
+           </div>
+         </div>
+         <div class="tab">
+           <input type="radio" id="tab-2" name="tab-group-1">
+           <label for="tab-2">Localizaci&oacute;n</label>
+           
+           <div class="content">
+           
+           <p>Se encuentra ubicado en la cabecera municipal del municipio de acacoyagua sobre la Av. Vicente Guerrero Sur.</p>
+            
+           </div>
+         </div>
+        <div class="tab">
+           <input type="radio" id="tab-3" name="tab-group-1">
+           <label for="tab-3">¿Como Llegar?</label>
+           
+           <div class="content"> 
+          <p>Tome  la carretera  federal Juchitán de Zaragoza - Tapachula,  se toma como referencia al pasar el Municipio de Mapastepec , donde Acacoyagua está ubicado a 32.8 km de ese lugar después pasando el retorno del ejido soconusco sobre el km 213, después tomando un retorno que está a una distancia de 2 km que indica la ruta para llegar al municipio.</p>
+          <p>Puede tomar la carretera  costera Tapachula - Juchitán de Zaragoza, llegando a la cabecera municipal seguir la Av. Vicente Guerrero Sur.</p>
+           </div>
+         </div>
+         
+         <div class="tab">
+           <input type="radio" id="tab-4" name="tab-group-1">
+           <label for="tab-4">Actividades</label>
+           
+           <div class="content"> 
+           <p>En el lugar usted puede practicar deportes como el futbol rápido, futbol soccer, basquetbol, voleibol, tenis, hacer caminatas, disfrutar de los eventos deportivos que se realizan en las temporadas de liguillas de torneos en el Municipio de Acacoyagua.</p>
+           </div>
+         </div>
+         
+      </div>
+      
+      <div id="imagenes">
+         
+          <div class="contenedorimg">  
+          <p>
+            <a class="fancybox" href="../fotos/a3201.jpg" data-fancybox-group="gallery" title="Unidad Deportiva de Acacoyagua"><img src="../fotos/a3201p.jpg" alt="" /></a>
+
+            <a class="fancybox" href="../fotos/a3202.jpg" data-fancybox-group="gallery" title="Unidad Deportiva de Acacoyagua"><img src="../fotos/a3202p.jpg" alt="" /></a>
+
+            <a class="fancybox" href="../fotos/a3203.jpg" data-fancybox-group="gallery" title="Unidad Deportiva de Acacoyagua"><img src="../fotos/a3203p.jpg" alt="" /></a>
+
+            <a class="fancybox" href="../fotos/a3204.jpg" data-fancybox-group="gallery" title="Unidad Deportiva de Acacoyagua"><img src="../fotos/a3204p.jpg" alt="" /></a>
+
+            <a class="fancybox" href="../fotos/a3205.jpg" data-fancybox-group="gallery" title="Unidad Deportiva de Acacoyagua"><img src="../fotos/a3205p.jpg" alt="" /></a>
+
+            <a class="fancybox" href="../fotos/a3206.jpg" data-fancybox-group="gallery" title="Unidad Deportiva de Acacoyagua"><img src="../fotos/a3206p.jpg" alt="" /></a>
+
+
+          </p>    
+ 
+        </div>   
+    
+      </div>  
+  </div>
+    
+    <p class="efecto">Recomendaci&oacute;n: dar clic sobre las im&aacute;genes para verlas mejor</h1>
+</div>
+</body>
+</html>
+

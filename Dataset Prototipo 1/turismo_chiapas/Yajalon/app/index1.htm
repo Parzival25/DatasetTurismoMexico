@@ -1,0 +1,1042 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <title>Mapa Turístico de Yajalon</title>
+  <link href="css/estilo_interfaz.css" rel="stylesheet" type="text/css"/>
+  
+  <!-- mapa -->
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0px; padding: 0px }
+    #mapa { height: 100% }
+  </style>
+  <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"> </script>
+  
+  <script type="text/javascript" src="menus.js"></script> 
+  
+  <!-- para la fancy box -->
+    
+  <!-- Add jQuery library -->
+  <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>-->
+  <script type="text/javascript" src="jquery.js"></script> 
+
+  <!-- Add mousewheel plugin (this is optional) -->
+  <script type="text/javascript" src="fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+  <!-- Add fancyBox -->
+  <link rel="stylesheet" href="fancybox/source/jquery.fancybox.css?v=2.1.3" type="text/css" media="screen" />
+  <script type="text/javascript" src="fancybox/source/jquery.fancybox.pack.js?v=2.1.3"></script>
+
+  <!-- Optionally add helpers - button, thumbnail and/or media -->
+  <link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+  <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+  <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+
+  <link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+  <script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+  <!-- termina la fancy box -->
+  
+  <script type="text/javascript">
+    var map;
+	var markersArray = []; /* marcadores */
+	
+		
+	var bmm=0;   // bandera menú mapas oculto por omisión
+	var bmc=0;   // bandera menú categorías oculto por omisión
+    
+	var bs=0;   // para verificar si hubo sitios en ambas bases de datos para la categoría seis
+	
+	function inicio()
+	{
+      var centro_chiapas = new google.maps.LatLng(17.3451722,-92.3819497);
+      var myOptions = { zoom: 11, 
+	                    center: centro_chiapas, 
+					    mapTypeControl: true,  
+					    mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+					    zoomControl: true,
+					    zoomControlOptions: {style: google.maps.ZoomControlStyle.LARGE, position: google.maps.ControlPosition.RIGHT_CENTER},
+						panControl: true,
+                        panControlOptions: {position: google.maps.ControlPosition.RIGHT_TOP},
+					    mapTypeId: google.maps.MapTypeId.ROADMAP
+					  }
+      map = new google.maps.Map(document.getElementById("mapa"),myOptions);
+	  
+	  // Líneas para definifir la activación del menú de la izquierda, mapas
+      var div_menu_mapas = document.createElement('DIV');
+      var control_menu_mapas = new control_personalizado_mapas(div_menu_mapas, map);
+      div_menu_mapas.index = 1;
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(div_menu_mapas);
+	  
+	  // Líneas para definifir la activación del menú de la izquierda, categorías
+      var div_menu_categorias = document.createElement('DIV');
+      var control_menu_categorias = new control_personalizado_categorias(div_menu_categorias, map);
+      div_menu_categorias.index = 1;
+      map.controls[google.maps.ControlPosition.LEFT_TOP].push(div_menu_categorias);
+	  
+	  // Líneas para definifir la activación del menú de la izquierda abajo, tuxmapa
+      var div_menu_pietuxmapa = document.createElement('DIV');
+      var control_menu_pietuxmapa = new control_personalizado_pietuxmapa(div_menu_pietuxmapa, map);
+      div_menu_pietuxmapa.index = 1;
+      map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(div_menu_pietuxmapa);
+	  
+	  	   // controles sobre el mapa
+	  var div_mapas = document.createElement('DIV');
+	  $(div_mapas).addClass().html
+	  (
+	    '<div class="menu_simple" id="id_menu_mapas">'+
+          '<ul class="menu_simple">'+
+	        '<li class="menu_simple"><a class="menu_simple" href="index.htm">Inicio</a></li>'+
+	        '<li class="menu_simple"><a class="menu_vacuo" href="#"> | </a></li>'+
+            '<li class="menu_simple" onmouseover="desplegar(&#39id_menu_mapas_locales&#39)" onmouseout="ocultar(&#39id_menu_mapas_locales&#39)"><a class="menu_vacuo" href="#">Mapas locales</a>'+
+        	  '<div class="menu_vertical_130" id="id_menu_mapas_locales">'+
+                '<ul class="menu_vertical">'+
+                  '<li><a class="menu_vertical" href="http://turismo-tuxtla.tuxmapa.com.mx" target="_blank">Tuxtla Gutiérrez</a></li>'+
+                '</ul>'+
+              '</div>'+
+	        '</li>'+	  
+	        '<li class="menu_simple"><a class="menu_vacuo" href="#"> | </a></li>'+
+          //  '<li class="menu_simple" onclick="cargar_ficha_chiapas()" ><a class="menu_simple" href="#">Ficha técnica de Chiapas</a></li>'+
+            '<li class="menu_simple"><a class="menu_vacuo" href="#"> | </a></li>'+
+			//'<li class="menu_simple" onmouseover="desplegar(&#39id_menu_revistas&#39)" onmouseout="ocultar(&#39id_menu_revistas&#39)"><a class="menu_vacuo" href="#">Revistas</a>'+
+        	  //'<div class="menu_vertical_130_revistas" id="id_menu_revistas">'+
+                //'<ul class="menu_vertical">'+
+                 // '<li onclick="cargar_gastronomia()"><a class="menu_vertical" href="#">Gastronomía</a></li>'+
+                '</ul>'+
+              '</div>'+
+	        '</li>'+	
+		  '</ul>'+
+		'</div>' 	
+      );
+	  map.controls[google.maps.ControlPosition.TOP_CENTER].push(div_mapas);
+	  
+	  // menú nivel 1 de categorias 
+	  var div_categorias = document.createElement('DIV');
+	  $(div_categorias).addClass().html
+	  (
+        '<div class="menu_vertical_170" id="id_menu_categorias">'+
+          '<ul class="menu_vertical">'+		    
+			'<li onmouseover="desplegar(&#39id_menu_esparcimiento&#39)" onmouseout="ocultar(&#39id_menu_esparcimiento&#39)"><a class="menu_vertical">Esparcimiento</a>'+
+              '<div class="menu_vertical_170_nivel_2" id="id_menu_esparcimiento">'+
+			    '<a onclick="marcadores_1()" class="menu_vertical" href="#"><p><b>Esparcimiento</b></p></a>'+'<hr />'+
+                '<ul class="menu_vertical">'+
+				  '<li onclick="marcadores_c2(1,1)"><a class="menu_vertical" href="#">Balneario</a></li>'+
+                  '<li onclick="marcadores_c2(2,1)"><a class="menu_vertical" href="#">Ba&ntilde;os/Nadar</a></li>'+
+				  '<li onclick="marcadores_c2(3,1)"><a class="menu_vertical" href="#">Caminatas/Expediciones</a></li>'+
+				  //'<li onclick="marcadores_c2(4,1)"><a class="menu_vertical" href="#">Cicloturismo</a></li>'+
+				  //'<li onclick="marcadores_c2(5,1)"><a class="menu_vertical" href="#">Circuitos/Expediciones</a></li>'+
+				  '<li onclick="marcadores_c2(6,1)"><a class="menu_vertical" href="#">Fotograf&iacute;a</a></li>'+
+				  '<li onclick="marcadores_c2(7,1)"><a class="menu_vertical" href="#">Juegos</a></li>'+
+				  //'<li onclick="marcadores_c2(8,1)"><a class="menu_vertical" href="#">Observaci&oacute;n de flora y fauna</a></li>'+
+				  '<li onclick="marcadores_c2(9,1)"><a class="menu_vertical" href="#">Paseos a caballo</a></li>'+
+				  '<li onclick="marcadores_c2(10,1)"><a class="menu_vertical" href="#">Picnic</a></li>'+
+				  '<li onclick="marcadores_c2(84,1)"><a class="menu_vertical" href="#">Recorrido en lancha</a></li>'+
+				  '<li onclick="marcadores_c2(98,1)"><a class="menu_vertical" href="#">Parques p&uacute;blicos</a></li>'+
+				  //'<li onclick="marcadores_c2(99,1)"><a class="menu_vertical" href="#">Plaza comercial</a></li>'+
+				  //'<li onclick="marcadores_c2(103,1)"><a class="menu_vertical" href="#">Zoo</a></li>'+			
+                  '<li onclick="marcadores_c2(112,1)"><a class="menu_vertical" href="#">Miradores</a></li>'+				  
+                '</ul>'+
+              '</div>'+
+	        '</li>'+            
+			
+			'<li onmouseover="desplegar(&#39id_menu_deportivas&#39)" onmouseout="ocultar(&#39id_menu_deportivas&#39)"><a class="menu_vertical">Deportivas</a>'+
+              '<div class="menu_vertical_170_nivel_2" id="id_menu_deportivas">'+
+                '<a onclick="marcadores_2()" class="menu_vertical" href="#"><p><b>Deportivas</b></p></a>'+'<hr />'+			    
+                '<ul class="menu_vertical">'+
+                 /* '<li onclick="marcadores_c2(11,2)"><a class="menu_vertical" href="#">Alas deltas</a></li>'+
+                  '<li onclick="marcadores_c2(12,2)"><a class="menu_vertical" href="#">Alta monta&ntildea</a></li>'+ */
+				  '<li onclick="marcadores_c2(13,2)"><a class="menu_vertical" href="#">Bicliceta de monta&ntildea</a></li>'+
+				  /* '<li onclick="marcadores_c2(14,2)"><a class="menu_vertical" href="#">Buceo</a></li>'+
+				  '<li onclick="marcadores_c2(15,2)"><a class="menu_vertical" href="#">Cabalgata</a></li>'+
+				  '<li onclick="marcadores_c2(16,2)"><a class="menu_vertical" href="#">Canoa</a></li>'+
+				  '<li onclick="marcadores_c2(17,2)"><a class="menu_vertical" href="#">Decenso en r&iacute;os/Rafting</a></li>'+
+				  '<li onclick="marcadores_c2(18,2)"><a class="menu_vertical" href="#">Escalada libre</a></li>'+
+				  '<li onclick="marcadores_c2(19,2)"><a class="menu_vertical" href="#">Escalamiento</a></li>'+
+				  '<li onclick="marcadores_c2(20,2)"><a class="menu_vertical" href="#">Esqu&iacute; acu&aacute;tico</a></li>'+ */
+				  '<li onclick="marcadores_c2(21,2)"><a class="menu_vertical" href="#">Futbol</a></li>'+
+				  /* '<li onclick="marcadores_c2(22,2)"><a class="menu_vertical" href="#">Globo aereoest&aacute;tico</a></li>'+
+				  '<li onclick="marcadores_c2(23,2)"><a class="menu_vertical" href="#">Golf</a></li>'+
+				  '<li onclick="marcadores_c2(24,2)"><a class="menu_vertical" href="#">Hidrotorneo</a></li>'+ */
+				  '<li onclick="marcadores_c2(25,2)"><a class="menu_vertical" href="#">Kayak</a></li>'+
+				  /* '<li onclick="marcadores_c2(26,2)"><a class="menu_vertical" href="#">Monta&ntildeismo/Hikking</a></li>'+
+				  '<li onclick="marcadores_c2(27,2)"><a class="menu_vertical" href="#">Paraca&iacute;das</a></li>'+
+				  '<li onclick="marcadores_c2(28,2)"><a class="menu_vertical" href="#">Parasailing</a></li>'+
+				  '<li onclick="marcadores_c2(29,2)"><a class="menu_vertical" href="#">Pesca deportiva</a></li>'+
+				  '<li onclick="marcadores_c2(30,2)"><a class="menu_vertical" href="#">Rapel</a></li>'+
+				  '<li onclick="marcadores_c2(31,2)"><a class="menu_vertical" href="#">Remo</a></li>'+
+				  '<li onclick="marcadores_c2(32,2)"><a class="menu_vertical" href="#">Sandboard</a></li>'+ */
+				  '<li onclick="marcadores_c2(33,2)"><a class="menu_vertical" href="#">Senderesmio/Trekking</a></li>'+
+				  /* '<li onclick="marcadores_c2(34,2)"><a class="menu_vertical" href="#">Sky</a></li>'+
+				  '<li onclick="marcadores_c2(35,2)"><a class="menu_vertical" href="#">Snowboard</a></li>'+
+				  '<li onclick="marcadores_c2(36,2)"><a class="menu_vertical" href="#">Surf</a></li>'+
+				  '<li onclick="marcadores_c2(37,2)"><a class="menu_vertical" href="#">Tenis</a></li>'+
+				  '<li onclick="marcadores_c2(38,2)"><a class="menu_vertical" href="#">Tirolesa</a></li>'+
+				  '<li onclick="marcadores_c2(39,2)"><a class="menu_vertical" href="#">Todo terreno/Raid 4x4</a></li>'+
+				  '<li onclick="marcadores_c2(40,2)"><a class="menu_vertical" href="#">Vela</a></li>'+
+				  '<li onclick="marcadores_c2(41,2)"><a class="menu_vertical" href="#">Velero, Windsurf</a></li>'+ */
+				  '<li onclick="marcadores_c2(124,2)"><a class="menu_vertical" href="#">Basquetball</a></li>'+
+				  '<li onclick="marcadores_c2(125,2)"><a class="menu_vertical" href="#">Voliball</a></li>'+
+
+                '</ul>'+
+              '</div>'+
+	        '</li>'+					
+			
+			'<li onmouseover="desplegar(&#39id_menu_natural&#39)" onmouseout="ocultar(&#39id_menu_natural&#39)"><a class="menu_vertical">Ambiente Natural</a>'+
+		 	  '<div class="menu_vertical_170_nivel_2" id="id_menu_natural">'+
+			    '<a onclick="marcadores_3()" class="menu_vertical" href="#"><p><b>Ambiente Natural</b></p></a>'+'<hr />'+
+                '<ul class="menu_vertical">'+
+                  '<li onclick="marcadores_c2(42,3)"><a class="menu_vertical" href="#">Cascadas</a></li>'+
+				  /*'<li onclick="marcadores_c2(43,3)"><a class="menu_vertical" href="#">Monta&ntilde;as y volcanes</a></li>'+
+                  '<li onclick="marcadores_c2(44,3)"><a class="menu_vertical" href="#">Valles</a></li>'+
+				  '<li onclick="marcadores_c2(45,3)"><a class="menu_vertical" href="#">Oasis</a></li>'+
+				  '<li onclick="marcadores_c2(46,3)"><a class="menu_vertical" href="#">Lagos y lagunas</a></li>'+ */
+				  '<li onclick="marcadores_c2(47,3)"><a class="menu_vertical" href="#">R&iacute;os y esteros</a></li>'+
+				  /*'<li onclick="marcadores_c2(48,3)"><a class="menu_vertical" href="#">Costas, playas</a></li>'+
+				  '<li onclick="marcadores_c2(49,3)"><a class="menu_vertical" href="#">Selva</a></li>'+
+				  '<li onclick="marcadores_c2(50,3)"><a class="menu_vertical" href="#">Bosque</a></li>'+
+				  '<li onclick="marcadores_c2(51,3)"><a class="menu_vertical" href="#">Desierto</a></li>'+ */
+				  '<li onclick="marcadores_c2(52,3)"><a class="menu_vertical" href="#">Contemplaci&oacute;n del paisaje</a></li>'+
+				  /*'<li onclick="marcadores_c2(53,3)"><a class="menu_vertical" href="#">Observaci&oacute;n de flora</a></li>'+
+				  '<li onclick="marcadores_c2(54,3)"><a class="menu_vertical" href="#">Observaci&oacute;n de fauna</a></li>'+
+				  '<li onclick="marcadores_c2(55,3)"><a class="menu_vertical" href="#">Termalismo</a></li>'+
+				  '<li onclick="marcadores_c2(56,3)"><a class="menu_vertical" href="#">Turismo de aventura</a></li>'+
+				  '<li onclick="marcadores_c2(57,3)"><a class="menu_vertical" href="#">Visita a exposiciones</a></li>'+
+				  '<li onclick="marcadores_c2(58,3)"><a class="menu_vertical" href="#">Zool&oacute;gicos</a></li>'+
+				  '<li onclick="marcadores_c2(59,3)"><a class="menu_vertical" href="#">Espeolog&iacute;a</a></li>'+ */
+				  '<li onclick="marcadores_c2(60,3)"><a class="menu_vertical" href="#">Ecoturismo</a></li>'+
+				  /* '<li onclick="marcadores_c2(85,3)"><a class="menu_vertical" href="#">Ca&ntilde;ones</a></li>'+
+				  '<li onclick="marcadores_c2(88,3)"><a class="menu_vertical" href="#">Cenotes</a></li>'+
+				  '<li onclick="marcadores_c2(92,3)"><a class="menu_vertical" href="#">Centros ecotur&iacute;sticos</a></li>'+ */
+                '</ul>'+
+              '</div>'+
+	        '</li>'+
+			
+			'<li onmouseover="desplegar(&#39id_menu_cultural&#39)" onmouseout="ocultar(&#39id_menu_cultural&#39)"><a class="menu_vertical">Hist&oacute;rico Cultural</a>'+
+              '<div class="menu_vertical_170_nivel_2" id="id_menu_cultural">'+
+			    '<a onclick="marcadores_4()" class="menu_vertical" href="#"><p><b>Patrimonio Hist&oacute;rico Cultural</b></p></a>'+'<hr />'+
+                '<ul class="menu_vertical">'+
+                  //'<li onclick="marcadores_c2(61,4)"><a class="menu_vertical" href="#">Arqueol&oacute;gicos</a></li>'+
+				  '<li onclick="marcadores_c2(62,4)"><a class="menu_vertical" href="#">Artesan&iacute;a</a></li>'+
+                  /*'<li onclick="marcadores_c2(63,4)"><a class="menu_vertical" href="#">Etnoturismo</a></li>'+
+				  '<li onclick="marcadores_c2(64,4)"><a class="menu_vertical" href="#">Gastronom&iacute;a</a></li>'+
+				  '<li onclick="marcadores_c2(65,4)"><a class="menu_vertical" href="#">Hist&oacute;ricos</a></li>'+ */
+				  '<li onclick="marcadores_c2(83,4)"><a class="menu_vertical" href="#">Museos, centros culturales</a></li>'+
+				  '<li onclick="marcadores_c2(86,4)"><a class="menu_vertical" href="#">Iglesias</a></li>'+
+				  /* '<li onclick="marcadores_c2(87,4)"><a class="menu_vertical" href="#">Monumentos</a></li>'+
+				  '<li onclick="marcadores_c2(91,4)"><a class="menu_vertical" href="#">Ciudad Colonial</a></li>'+
+				  '<li onclick="marcadores_c2(96,4)"><a class="menu_vertical" href="#">Ciudad +50,000 habitantes</a></li>'+
+				  '<li onclick="marcadores_c2(97,4)"><a class="menu_vertical" href="#">Ciudad rural sustentable</a></li>'+
+				  '<li onclick="marcadores_c2(102,4)"><a class="menu_vertical" href="#">Teatros</a></li>'+ */			
+                '</ul>'+
+              '</div>'+
+	        '</li>'+
+
+			/* '<li onmouseover="desplegar(&#39id_menu_produccion&#39)" onmouseout="ocultar(&#39id_menu_produccion&#39)"><a class="menu_vertical">Producci&oacute;n</a>'+
+	          '<div class="menu_vertical_170_nivel_2" id="id_menu_produccion">'+
+			    '<a onclick="marcadores_5()" class="menu_vertical" href="#"><p><b>Actividades vinculadas a la Producci&oacute;n</b></p></a>'+'<hr />'+
+			    '<ul class="menu_vertical">'+
+                  '<li onclick="marcadores_c2(66,5)"><a class="menu_vertical" href="#">Agroturismo</a></li>'+
+				  '<li onclick="marcadores_c2(67,5)"><a class="menu_vertical" href="#">Empresas forestales</a></li>'+
+                  '<li onclick="marcadores_c2(68,5)"><a class="menu_vertical" href="#">Industria diversa</a></li>'+
+				  '<li onclick="marcadores_c2(69,5)"><a class="menu_vertical" href="#">Miner&iacute;a</a></li>'+
+				  '<li onclick="marcadores_c2(89,5)"><a class="menu_vertical" href="#">Centro de convenciones</a></li>'+
+				  '<li onclick="marcadores_c2(90,5)"><a class="menu_vertical" href="#">F&oacute;rum</a></li>'+
+				  '<li onclick="marcadores_c2(100,5)"><a class="menu_vertical" href="#">Presas hidroel&eacute;ctricas</a></li>'+
+				  '<li onclick="marcadores_c2(101,5)"><a class="menu_vertical" href="#">Puertos mar&iacute;timos</a></li>'+				 
+                '</ul>'+
+              '</div>'+
+	        '</li>'+		*/
+						
+			'<li onmouseover="desplegar(&#39id_menu_eventos&#39)" onmouseout="ocultar(&#39id_menu_eventos&#39)"><a class="menu_vertical">Eventos programados</a>'+
+			  '<div class="menu_vertical_170_nivel_2" id="id_menu_eventos">'+
+			    '<a onclick="marcadores_6()" class="menu_vertical" href="#"><p><b>Eventos programados</b></p></a>'+'<hr />'+
+				'<ul class="menu_vertical">'+
+                  /* '<li onclick="marcadores_c2(70,6)"><a class="menu_vertical" href="#">Congresos y seminarios</a></li>'+
+				  '<li onclick="marcadores_c2(71,6)"><a class="menu_vertical" href="#">Eventos cient&iacute;ficos</a></li>'+
+                  
+				  '<li onclick="marcadores_c2(72,6)"><a class="menu_vertical" href="#">Eventos culturales</a></li>'+ */
+				  '<li onclick="marcadores_c2(73,6)"><a class="menu_vertical" href="#">Eventos deportivos</a></li>'+
+				  /* '<li onclick="marcadores_c2(74,6)"><a class="menu_vertical" href="#">Eventos gastron&oacute;micos</a></li>'+
+				  '<li onclick="marcadores_c2(75,6)"><a class="menu_vertical" href="#">Fiestas artesanales</a></li>'+
+				  '<li onclick="marcadores_c2(76,6)"><a class="menu_vertical" href="#">Ferias industriales</a></li>'+
+				  '<li onclick="marcadores_c2(77,6)"><a class="menu_vertical" href="#">Festivales de cine</a></li>'+ */
+				  '<li onclick="marcadores_c2(78,6)"><a class="menu_vertical" href="#">Festivales de m&uacute;sica</a></li>'+
+				  //'<li onclick="marcadores_c2(79,6)"><a class="menu_vertical" href="#">Festivales de rock</a></li>'+
+				  '<li onclick="marcadores_c2(80,6)"><a class="menu_vertical" href="#">Festivales folkl&oacute;ricos</a></li>'+
+				  '<li onclick="marcadores_c2(81,6)"><a class="menu_vertical" href="#">Manifestaciones religiosas</a></li>'+
+				  /*'<li onclick="marcadores_c2(82,6)"><a class="menu_vertical" href="#">&Oacute;pera, ballet</a></li>'+
+				  '<li onclick="marcadores_c2(93,6)"><a class="menu_vertical" href="#">Ferias ganaderas</a></li>'+
+				  '<li onclick="marcadores_c2(94,6)"><a class="menu_vertical" href="#"><i>Spring break</i></a></li>'+ */
+				  '<li onclick="marcadores_c2(95,6)"><a class="menu_vertical" href="#">Fiesta popular</a></li>'+
+                '</ul>'+
+              '</div>'+
+	        '</li>'+
+			
+			'<li onmouseover="desplegar(&#39id_menu_infraestructura&#39)" onmouseout="ocultar(&#39id_menu_infraestructura&#39)"><a class="menu_vertical">Infraestructura</a>'+
+              '<div class="menu_vertical_170_nivel_2" id="id_menu_infraestructura">'+
+			    '<a onclick="marcadores_7()" class="menu_vertical" href="#"><p><b>Infraestructura</b></p></a>'+'<hr />'+
+			    '<ul class="menu_vertical">'+
+                  //'<li onclick="marcadores_c2(104,7)"><a class="menu_vertical" href="#">Distribuidores viales</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(105,7)"><a class="menu_vertical" href="#">Hospitales</a></li>'+
+                  '<li onclick="marcadores_c2_infraestructura(106,7)"><a class="menu_vertical" href="#">Gasoliner&iacute;as</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(107,7)"><a class="menu_vertical" href="#">Parque central</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(108,7)"><a class="menu_vertical" href="#">Oficinas de gobierno</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(109,7)"><a class="menu_vertical" href="#">Parques deportivos</a></li>'+
+				  //'<li onclick="marcadores_c2(110,7)"><a class="menu_vertical" href="#">Plaza de toros</a></li>'+
+				  //'<li onclick="marcadores_c2(111,7)"><a class="menu_vertical" href="#">Central camionera</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(113,7)"><a class="menu_vertical" href="#">Cruz roja</a></li>'+
+				  //'<li onclick="marcadores_c2(114,7)"><a class="menu_vertical" href="#">Bomberos</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(115,7)"><a class="menu_vertical" href="#">Polic&iacute;a</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(116,7)"><a class="menu_vertical" href="#">Bancos</a></li>'+
+				  //'<li onclick="marcadores_c2(117,7)"><a class="menu_vertical" href="#">Casas de cambio</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(118,7)"><a class="menu_vertical" href="#">Oficinas de correos</a></li>'+
+				  //'<li onclick="marcadores_c2(119,7)"><a class="menu_vertical" href="#">Aereopuertos</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(120,7)"><a class="menu_vertical" href="#">Taxis</a></li>'+
+				  /* '<li onclick="marcadores_c2(121,7)"><a class="menu_vertical" href="#">Ferrocarril</a></li>'+
+				  '<li onclick="marcadores_c2(122,7)"><a class="menu_vertical" href="#">Embarcadero</a></li>'+ */
+				  '<li onclick="marcadores_c2_infraestructura(123,7)"><a class="menu_vertical" href="#">Mercados</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(126,7)"><a class="menu_vertical" href="#">Hoteles</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(127,7)"><a class="menu_vertical" href="#">Auditorios</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(128,7)"><a class="menu_vertical" href="#">Unidad deportiva/estadio</a></li>'+
+				  '<li onclick="marcadores_c2_infraestructura(129,7)"><a class="menu_vertical" href="#">Restaurant</a></li>'+
+                '</ul>'+
+              '</div>'+
+	        '</li>'+         	  
+		  '</ul>'+
+        '</div>'
+      );
+	  map.controls[google.maps.ControlPosition.LEFT_TOP].push(div_categorias);
+	  
+	  marcadores();
+	  marcadores_temporales();
+    }
+
+	
+	function marcadores() 
+	{
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/geo.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_temporales() 
+	{
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_temporales.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/geo_temporal.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers_temporal(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_1() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_1.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic11.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_2() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_2.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic12.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_3() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_3.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic13.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_4() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_4.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic14.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_5() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_5.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic15.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_6() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_6.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic16.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    	
+      // cargar los temporales		
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_temporales_6.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/geo_temporal.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers_temporal(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_7() 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","xml/marcadores_7.xml",false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic17.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers_infraestructura(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	
+	
+	function marcadores_c2(c2,icono) 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","php/genera_xml_marcadores_c2.php?q="+c2,false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic1'+icono+'.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+	  
+	  /* verifica si hay sitios */
+	  if (x[0].getAttribute("id") == "0")
+	  {
+	    imagen = 'imagenes/no_hay.png';
+		id = x[0].getAttribute("id");
+	    lat = parseFloat(x[0].getAttribute("lat"));
+        lng = parseFloat(x[0].getAttribute("lng"));
+		nombre = x[0].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		markersArray.push(marker);
+		return;
+	  }
+	  
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers(marker, id);
+        markersArray.push(marker);
+	  }
+    }
+	
+	function marcadores_c2_6(c2,icono) 
+	{
+	  borrar_mapa();
+	  
+	  marcadores_c2_6_temporales(c2,icono);	 
+	  marcadores_c2_6_permanentes(c2,icono);
+		
+	}
+	
+	function marcadores_c2_6_permanentes(c2,icono) 
+	{
+	  // átomos permanentes
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","php/genera_xml_marcadores_c2_6_1.php?q="+c2,false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen;
+	  var lat, lng;
+	  
+	  x=xmlDoc.getElementsByTagName("marcador");
+	  
+	  /* verifica si hay sitios */
+	  if ((x[0].getAttribute("id") == "0") && (bs==0))    // en las dos bases de datos no hay sitios
+	  {
+	    imagen = 'imagenes/no_hay.png';
+		id = x[0].getAttribute("id");
+	    lat = parseFloat(x[0].getAttribute("lat"));
+        lng = parseFloat(x[0].getAttribute("lng"));
+		nombre = x[0].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		markersArray.push(marker);
+		return;
+	  }
+	  
+	  if (x[0].getAttribute("id") != "0") 
+	  {
+	     imagen='imagenes/ic1'+icono+'.png';
+	  
+	     for(i=0;i<x.length;i++)
+         {
+	        id = x[i].getAttribute("id");
+	        lat = parseFloat(x[i].getAttribute("lat"));
+            lng = parseFloat(x[i].getAttribute("lng"));
+		    nombre = x[i].getAttribute("nombre");
+		        
+		    var location = new google.maps.LatLng(lat, lng);
+            marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		    infoMarkers(marker, id);
+            markersArray.push(marker);
+	     }
+      }		 
+      bs=0;  // bandera se reactiva a cero para la siguiente llamada	  
+	}	  
+    
+	function marcadores_c2_infraestructura(c2,icono) 
+	{
+	  borrar_mapa();
+	  
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET","php/genera_xml_marcadores_c2_infraestructura.php?q="+c2,false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen = 'imagenes/ic1'+icono+'.png';
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+	  
+	  /* verifica si hay sitios */
+	  if (x[0].getAttribute("id") == "0")
+	  {
+	    imagen = 'imagenes/no_hay.png';
+		id = x[0].getAttribute("id");
+	    lat = parseFloat(x[0].getAttribute("lat"));
+        lng = parseFloat(x[0].getAttribute("lng"));
+		nombre = x[0].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		markersArray.push(marker);
+		return;
+	  }
+	  
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers_infraestructura(marker, id);
+       markersArray.push(marker);
+	  }
+    }
+	function marcadores_c2_6_temporales(c2,icono) 
+	{
+	  // átomos temporales
+	  if (window.XMLHttpRequest)
+      {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      }
+      else
+      {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
+	  xmlhttp.open("GET","php/genera_xml_marcadores_c2_6_2.php?q="+c2,false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  var imagen='imagenes/geo_temporal.png';;
+	  var lat, lng;
+	  x=xmlDoc.getElementsByTagName("marcador");
+	  
+	  /* verifica si hay sitios */
+	  if (x[0].getAttribute("id") != "0")  // hay sitios
+	  {
+	     for(i=0;i<x.length;i++)
+         {
+	        id = x[i].getAttribute("id");
+	        lat = parseFloat(x[i].getAttribute("lat"));
+            lng = parseFloat(x[i].getAttribute("lng"));
+		    nombre = x[i].getAttribute("nombre");
+	        var location = new google.maps.LatLng(lat, lng);
+            marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		    infoMarkers_temporal(marker, id);
+            markersArray.push(marker);
+	     }
+		 bs=1;
+      }
+	}  
+	
+	function infoMarkers(markers, address)
+    {
+      google.maps.event.addListener(markers, 'click', function() 
+	  {
+	    $.fancybox.open({href : 'atomos/'+address+'.html', type : 'iframe'});
+	  });
+    }
+		function infoMarkers_infraestructura(markers, address)
+    {
+      google.maps.event.addListener(markers, '', function() 
+	  {
+	    $.fancybox.open({href : 'atomos/'+address+'.html', type : 'iframe'});
+	  });
+    }
+	
+	function infoMarkers_temporal(markers, address)
+    {
+      google.maps.event.addListener(markers, 'click', function() 
+	  {
+	    $.fancybox.open({href : 'atomos_temporales/at'+address+'.html', type : 'iframe'});
+	  });
+    }
+	
+	function cargar_gastronomia()
+    {
+      $.fancybox.open({href : 'gastronomia.htm', type : 'iframe'});
+    }
+	
+	function cargar_personajes()
+    {
+      $.fancybox.open({href : 'ficha_personajes.htm', type : 'iframe'});
+    }
+	
+	function cargar_ficha_chiapas()
+    {
+      $.fancybox.open({href : 'ficha_chiapas.htm', type : 'iframe'});  
+    }
+
+	function cargar_ficha_tuxmapa()
+    {
+      $.fancybox.open({href : 'ficha_tuxmapa.htm', type : 'iframe'});  
+    }
+	
+	// Shows any overlays currently in the array
+    function desplegar_mapa() 
+	{
+      if (markersArray) 
+	  {
+        for (i in markersArray) 
+		{
+          markersArray[i].setMap(map);
+        }
+      }
+    }
+	
+	// Deletes all markers in the array by removing references to them
+    function borrar_mapa() 
+	{
+      if (markersArray) 
+	  {
+        for (i in markersArray) 
+		{
+          markersArray[i].setMap(null);
+        }
+        markersArray.length = 0;
+      }
+    }
+	
+	// Removes the overlays from the map, but keeps them in the array
+    function limpiar_mapa() 
+    {
+      if (markersArray) 
+	  {
+        for (i in markersArray) 
+		{
+          markersArray[i].setMap(null);
+        }
+      } 
+    }
+	
+    // controles personalizados sobre el mapa	
+	function control_personalizado_mapas(controlDiv, map)  
+    {
+      controlDiv.style.padding = '5px'; // distancia del control con relación al borde del mapa
+
+      // Set CSS for the control border
+      var controlUI = document.createElement('DIV');
+      controlUI.style.backgroundColor = 'white';
+      controlUI.style.borderStyle = 'solid';
+      controlUI.style.borderWidth = '2px';
+      controlUI.style.cursor = 'pointer';
+      controlUI.style.textAlign = 'center';
+      controlUI.title = 'Click para ver las opciones sobre el mapa de Tuxtla Gutiérrez';
+      controlDiv.appendChild(controlUI);
+
+      // Set CSS for the control interior
+      var controlText = document.createElement('DIV');
+      controlText.style.fontFamily = 'Arial,sans-serif';
+      controlText.style.fontSize = '12px';
+      controlText.style.paddingLeft = '4px';
+      controlText.style.paddingRight = '4px';
+      controlText.innerHTML = 'Opciones';
+      controlUI.appendChild(controlText);
+
+      // Setup the click event listeners: 
+      google.maps.event.addDomListener(controlUI, 'click', 
+	    function() 
+		{  
+		  if (bmm==0) 
+		  { 
+		    document.getElementById("id_menu_mapas").style.visibility="visible";
+			bmm=1;
+			controlUI.style.backgroundColor = 'lightgreen';
+		  }	
+		  else
+		  {
+		    document.getElementById("id_menu_mapas").style.visibility="hidden";
+			bmm=0;
+			controlUI.style.backgroundColor = 'white';
+		  }
+		}
+      ); 		
+    }
+	
+    function control_personalizado_categorias(controlDiv, map)  
+    {
+      controlDiv.style.padding = '5px'; // distancia del control con relación al borde del mapa
+
+      // Set CSS for the control border
+      var controlUI = document.createElement('DIV');
+      controlUI.style.backgroundColor = 'white';
+      controlUI.style.borderStyle = 'solid';
+      controlUI.style.borderWidth = '2px';
+      controlUI.style.cursor = 'pointer';
+      controlUI.style.textAlign = 'center';
+      controlUI.title = 'Click para ver menú de categorias';
+      controlDiv.appendChild(controlUI);
+
+      // Set CSS for the control interior
+      var controlText = document.createElement('DIV');
+      controlText.style.fontFamily = 'Arial,sans-serif';
+      controlText.style.fontSize = '12px';
+      controlText.style.paddingLeft = '4px';
+      controlText.style.paddingRight = '4px';
+      controlText.innerHTML = 'Categorías';
+      controlUI.appendChild(controlText);
+
+      // Setup the click event listeners: simply set the map to Chicago
+      google.maps.event.addDomListener(controlUI, 'click', 
+	    function() 
+		{
+		  if (bmc==0) 
+		  { 
+		    document.getElementById("id_menu_categorias").style.visibility="visible";
+			bmc=1;
+			controlUI.style.backgroundColor = 'lightgreen';
+		  }	
+		  else
+		  {
+		    document.getElementById("id_menu_categorias").style.visibility="hidden";
+			bmc=0;
+			controlUI.style.backgroundColor = 'white';
+		  }
+		}
+	  );
+    }
+	
+	// controles personalizados sobre el mapa	
+    function control_personalizado_pietuxmapa(controlDiv, map)  
+    {
+      controlDiv.style.padding = '5px'; // distancia del control con relación al borde del mapa
+
+      // Set CSS for the control border
+      var controlUI = document.createElement('DIV');
+      controlUI.style.backgroundColor = 'white';
+      controlUI.style.borderStyle = 'solid';
+      controlUI.style.borderWidth = '2px';
+      controlUI.style.cursor = 'pointer';
+      controlUI.style.textAlign = 'center';
+      controlUI.title = 'Click para ver menú de pie de página TuxMapa';
+      controlDiv.appendChild(controlUI);
+
+      // Set CSS for the control interior
+      var controlText = document.createElement('DIV');
+      controlText.style.fontFamily = 'Arial,sans-serif';
+      controlText.style.fontSize = '12px';
+      controlText.style.paddingLeft = '4px';
+      controlText.style.paddingRight = '4px';
+      controlText.innerHTML = 'Tuxmapa';
+      controlUI.appendChild(controlText);
+
+      // Setup the click event listeners: simply set the map to Chicago
+      google.maps.event.addDomListener(controlUI, 'click', function() {cargar_ficha_tuxmapa()});
+    }
+  </script>
+  
+  
+</head>
+
+<body onload="inicio()">
+  
+ <div id="mapa" style="width:100%; height:100%"></div>
+</body>
+
+</html>

@@ -1,0 +1,301 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  
+  <!-- estilos personalizados--> 
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/estilos_sitios.css">
+  
+  <!-- Add jQuery library -->
+  <script type="text/javascript" src="../fancyfotos/lib/jquery-1.8.2.min.js"></script>
+
+  <!-- Add mousewheel plugin (this is optional) -->
+  <script type="text/javascript" src="../fancyfotos/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+  <!-- Add fancyBox main JS and CSS files -->
+  <script type="text/javascript" src="../fancyfotos/source/jquery.fancybox.js?v=2.1.3"></script>
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/jquery.fancybox.css?v=2.1.2" media="screen" />
+
+  <!-- Add Button helper (this is optional) -->
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" />
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+
+  <!-- Add Thumbnail helper (this is optional) -->
+  <link rel="stylesheet" type="text/css" href="../fancyfotos/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" />
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+  <!-- Add Media helper (this is optional) -->
+  <script type="text/javascript" src="../fancyfotos/source/helpers/jquery.fancybox-media.js?v=1.0.5"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      /*
+       *  Simple image gallery. Uses default settings
+       */
+
+      $('.fancybox').fancybox();
+
+      /*
+       *  Different effects
+       */
+
+      // Change title type, overlay closing speed
+      $(".fancybox-effects-a").fancybox({
+        helpers: {
+          title : {
+            type : 'outside'
+          },
+          overlay : {
+            speedOut : 0
+          }
+        }
+      });
+
+      // Disable opening and closing animations, change title type
+      $(".fancybox-effects-b").fancybox({
+        openEffect  : 'elastic',
+        closeEffect : 'elastic',
+
+        helpers : {
+          title : {
+            type : 'over'
+          }
+        }
+      });
+
+      // Set custom style, close if clicked, change title type and overlay color
+      $(".fancybox-effects-c").fancybox({
+        wrapCSS    : 'fancybox-custom',
+        closeClick : true,
+
+        openEffect : 'elastic',
+
+        helpers : {
+          title : {
+            type : 'inside'
+          },
+          overlay : {
+            css : {
+              'background' : 'rgba(238,238,238,0.85)'
+            }
+          }
+        }
+      });
+
+      // Remove padding, set opening and closing animations, close if clicked and disable overlay
+      $(".fancybox-effects-d").fancybox({
+        padding: 0,
+
+        openEffect : 'elastic',
+        openSpeed  : 150,
+
+        closeEffect : 'elastic',
+        closeSpeed  : 150,
+
+        closeClick : true,
+
+        helpers : {
+          overlay : null
+        }
+      });
+
+      /*
+       *  Button helper. Disable animations, hide close button, change title type and content
+       */
+
+      $('.fancybox-buttons').fancybox({
+        openEffect  : 'elastic',
+        closeEffect : 'elastic',
+
+        prevEffect : 'elastic',
+        nextEffect : 'elastic',
+
+        closeBtn  : false,
+
+        helpers : {
+          title : {
+            type : 'inside'
+          },
+          buttons : {}
+        },
+
+        afterLoad : function() {
+          this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+        }
+      });
+
+
+      /*
+       *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+       */
+
+      $('.fancybox-thumbs').fancybox({
+        prevEffect : 'elastic',
+        nextEffect : 'elastic',
+
+        closeBtn  : false,
+        arrows    : false,
+        nextClick : true,
+
+        helpers : {
+          thumbs : {
+            width  : 50,
+            height : 50
+          }
+        }
+      });
+
+      /*
+       *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+      */
+      $('.fancybox-media')
+        .attr('rel', 'media-gallery')
+        .fancybox({
+          openEffect : 'elastic',
+          closeEffect : 'elastic',
+          prevEffect : 'elastic',
+          nextEffect : 'elastic',
+
+          arrows : false,
+          helpers : {
+            media : {},
+            buttons : {}
+          }
+        });
+
+      /*
+       *  Open manually
+       */
+
+      $("#fancybox-manual-a").click(function() {
+        $.fancybox.open('1_b.jpg');
+      });
+
+      $("#fancybox-manual-b").click(function() {
+        $.fancybox.open({
+          href : 'iframe.html',
+
+          type : 'iframe',
+          padding : 5
+        });
+      });
+
+      $("#fancybox-manual-c").click(function() {
+        $.fancybox.open([
+          {
+            href : '1_b.jpg',
+            title : 'My title'
+          }, {
+            href : '2_b.jpg',
+            title : '2nd title'
+          }, {
+            href : '3_b.jpg'
+          }
+        ], {
+          helpers : {
+            thumbs : {
+              width: 75,
+              height: 50
+            }
+          }
+        });
+      });
+
+
+    });
+  </script>
+  <style type="text/css">
+    .fancybox-custom .fancybox-skin {
+      box-shadow: 0 0 50px #222;
+    }
+  </style>
+
+
+
+  
+</head>
+<body>
+
+<div id="principal1">
+<!--
+  <div class="view_port">
+    <div id="titulo" class="polling_message"> <p> Aguas Termales </p></div>
+    <div class="cylon_eye"></div>
+  </div>
+  -->
+  <div id="titulo"> <p> Puente del Ferrocarril </p></div>
+    
+
+  <div id="atomo"> 
+  
+      
+    
+      <div class="tabs1">
+         <div class="tab">
+           <input type="radio" id="tab-1" name="tab-group-1" checked/>
+           <label for="tab-1">Descripci&oacute;n</label>
+           
+           <div class="content"> 
+           <p>Es una construcción donde se puede apreciar una vista panorámica sobre el Volcán madre Vieja y el rio Cacaluta, admirar la magnificencia de esta obra ya que forma  parte de la historia Mexicana debido a que durante el periodo de gobierno del presidente Porfirio Díaz se promueve la construcción ferroviaria. El ferrocarril comunicó y promovió el desarrollo económico del país Mexicano. </p>
+          <p>Esta línea de ferrocarril Panamericano fue construida por capital norteamericano y del gobierno de México por partes iguales. Unió la frontera con Guatemala, en Tapachula y San Jerónimo, con la línea ferroviaria de Tehuantepec pasando por Tonalá. Se terminó de construir en 1908. Las vías ferroviarias jugaron un papel muy importante en la Revolución Mexicana.</p>
+              
+           </div>
+         </div>
+         <div class="tab">
+           <input type="radio" id="tab-2" name="tab-group-1">
+           <label for="tab-2">Localizaci&oacute;n</label>
+           
+           <div class="content">
+         <p>se encuentra ubicado en la Colonia Hidalgo, Sobre el rio Cacaluta.</p>
+            
+           </div>
+         </div>
+        <div class="tab">
+           <input type="radio" id="tab-3" name="tab-group-1">
+           <label for="tab-3">¿Como Llegar?</label>
+           
+           <div class="content"> 
+          <p>Tome la carretera federal 200 Juchitán de Zaragoza - Tapachula, tomando el retorno que lleva a la colonia hidalgo que se encuentra aproximadamente a  3 km al pasar el Retén Federal Madre Vieja; pasando el Rancho El Fortín,  a 50 metros antes de pasar el puente Bonanza del rio Cacaluta y seguir hacia la Col. Hidalgo continuando por la Av. Independencia</p>
+          <p>Puede tomar la carretera  costera Tapachula - Juchitán de Zaragoza y tomar el desvió hacia la Colonia Hidalgo, continuando por la Av. Independencia</p>
+           </div>
+         </div>
+         
+         <div class="tab">
+           <input type="radio" id="tab-4" name="tab-group-1">
+           <label for="tab-4">Actividades</label>
+           
+           <div class="content"> 
+           <p>En el lugar usted puede practicar  actividades como tomar fotografías,  andar sobre bicicletas, apreciar esta construcción que forma parte de la historia del pueblo mexicano, la vista panorámica que ofrece sobre el rio cacaluta y el volcan madre vieja, caminatas que son buenas para la salud, explorar los alrededores</p>
+           </div>
+         </div>
+         
+      </div>
+      
+      <div id="imagenes">
+         
+          <div class="contenedorimg">  
+          <p>
+
+           <a class="fancybox" href="../fotos/a2502.jpg" data-fancybox-group="gallery" title="Puente del Ferrocarril"><img src="../fotos/a2502p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a2504.jpg" data-fancybox-group="gallery" title="Puente del Ferrocarril"><img src="../fotos/a2504p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a2505.jpg" data-fancybox-group="gallery" title="Puente del Ferrocarril"><img src="../fotos/a2505p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a2501.jpg" data-fancybox-group="gallery" title="Puente del Ferrocarril"><img src="../fotos/a2501p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a2503.jpg" data-fancybox-group="gallery" title="Puente del Ferrocarril"><img src="../fotos/a2503p.jpg" alt="" /></a>
+
+           <a class="fancybox" href="../fotos/a2506.jpg" data-fancybox-group="gallery" title="Puente del Ferrocarril"><img src="../fotos/a2506p.jpg" alt="" /></a>
+          </p>    
+ 
+        </div>   
+    
+      </div>  
+  </div>
+    
+    <p class="efecto">Recomendaci&oacute;n: dar clic sobre las im&aacute;genes para verlas mejor</h1>
+</div>
+</body>
+</html>

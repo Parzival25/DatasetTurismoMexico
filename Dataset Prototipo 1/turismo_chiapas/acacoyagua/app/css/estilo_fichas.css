@@ -1,0 +1,146 @@
+body { background-color:#f2f2f2; }
+
+div.contenedor 
+{
+  width:700px; 
+  margin:0 auto;   /* centrar toda la página */
+  font-family:Tahoma, sans-serif;
+  font-size:12px;
+}
+
+div.encabezado
+{
+  padding:0.5em;  
+  border:1px solid gray;
+}
+
+div.menu_simple
+{
+  padding:0.5em;  
+  background-color:#D0D0D0;
+}
+/* menú */
+li.menu_simple
+{
+  display:inline; /* hacer un menú horizontal con una mejor separación entre opciones a diferencia de float:left */
+  
+}
+
+ul.menu_simple
+{
+  list-style-type:none; /* eliminar viñetas */
+  margin:0;             /* eliminar margen  */
+  padding:0;            /* eliminar padding */
+}
+
+a.menu_simple:link,a.menu_simple:visited 
+{
+  background-color:#DODODO;  
+  color:#000000;
+  text-decoration:none;
+
+}
+
+a.menu_simple:hover,a.menu_simple:active
+{
+  color:#0000ff;
+  text-decoration:underline;
+  
+}
+
+a.menu_vacuo:link,a.menu_vacuo:visited 
+{
+  background-color:#D0D0D0;  
+  color:#000000;
+  text-decoration:none;
+}
+
+a.menu_vacuo:hover,a.menu_vacuo:active
+{
+  color:#000000;
+  text-decoration:none;
+}
+
+
+
+
+
+
+div.contenido_izquierda
+{
+  width:470px;  /* 480 en total */
+  padding:5px;
+  
+  float:left;  
+  
+  font-size:11px;
+}
+
+div.contenido_derecha
+{
+  width:469px;  /* 480 en total */
+  padding:5px;
+  border-left:1px solid gray;
+  /*margin:0;*/
+  
+  float:left;
+ 
+  font-size:11px;
+}
+
+div.contenido
+{
+  width:960px;
+  margin:0;
+  padding:1em;
+  font-size:11px;
+}
+
+p.derecha {text-align:right;}
+p.justificar {text-align:justify;}
+img.izquierda{float:left; margin-right:10px}
+
+/* menu de imagenes en el pie */
+div.img
+{
+  margin: 4px;
+  border: 1px solid #0000ff;
+  height: auto;
+  width: auto;
+  float: left;
+  text-align: center;
+}	
+div.img img
+{
+  display: inline;
+  margin: 2px;
+  border: 1px solid #ffffff;
+}
+div.img a:hover img {border: 1px solid #0000ff;}
+div.desc
+{
+  text-align: center;
+  font-weight: normal;
+  width: 120px;
+  margin: 2px;
+  font-size:10px;
+}
+
+
+div.pie
+{
+  text-align: center;
+  padding:1em;
+  font-size:10px;
+}
+
+/* como salto de línea o salto en los div */
+.clear
+{
+  clear:both;
+}
+h3
+{
+	text-align:center;
+	background:#0099CC;
+}

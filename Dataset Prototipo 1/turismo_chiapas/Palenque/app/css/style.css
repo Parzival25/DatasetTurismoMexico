@@ -1,0 +1,114 @@
+/* CUERPO DE LA PAGINA */
+body {font-family:Aharoni;font-size:12px;margin:0;padding:0;background:url(../images/fondon.png);
+background-position:relative;
+background-repeat:scroll;}
+
+/* ENCABEZADO */
+h1 {color:#84be19}
+
+#container {width:900px;background:#fff;margin:0 auto} 
+#header {width:auto;height:auto}
+#headerBackground {width:895px;height:70px;background:#00561B;color:white} 
+#header h1 {margin:0;padding:200px 40px 0 0;color:#fff;text-align:right;font-size:30px}
+#sidebar1 {float:right;width:200px;background:#fff;margin:20px 40px 20px 0}
+#sidebar1 a, #mainContent a {color:#84be19;font-weight:bold}
+
+/* CONTENIDO */
+#mainContent {
+	margin:0px 0px 0px 0px; 
+    float: center;
+    
+    padding: 10px 0 0 0;
+    width: 750px;
+	}
+
+/* MAPA */
+#mapa{
+width: 900px; 
+height: 670px; 
+border:3px #FFFFFF;
+}
+
+#galeria{
+text-align:center;
+width: 900px; 
+height: 651px; 
+border:3px #FFFFFF;
+}
+
+.productPic {float:left;margin:0 20px 15px 0}
+
+
+/*FOOTER - PIE DE PÁGINA*/
+#separador_princ{
+    background-color: white;
+    width: 894px;
+    margin: 0 auto;
+    height: 2px;
+    border-bottom:  3px solid #FFFFFF;
+}
+
+
+.pie {
+    height: 80px;
+    width: 894px;
+    margin: 2px 0;
+    text-align: center;
+    background: #00561B;
+    margin:0 auto;
+    border-left:  3px solid #FFFFFF;   
+    border-right: 3px solid #FFFFFF;   
+    border-bottom: 3px solid #FFFFFF; 
+    font-family: Aharoni;  
+	}
+  
+.pie ul li {
+    list-style-type: none; 
+    display: inline; 
+    color: #ffffff;
+    float: right;
+    margin-left: 5px;
+    padding:10px 10px 0 0; 
+	}
+
+.pie ul li a {
+    color: #ffffff;
+    text-decoration: underline;
+	}
+	
+.pie ul li a:hover {
+    color:#008256;
+    text-decoration: underline;
+	}
+
+
+/* begin main menu */
+#navcontainer {margin:auto 0;width:auto;text-align:center}
+#navcontainer ul {padding:0;margin:auto 0;background:#00561B;float:left;width:100%}
+#navcontainer ul li {display:inline;}
+#navcontainer ul li a {color:White;text-decoration:none;float:left;border-right:1px solid #fff;font-size:18px;padding:11px 30px}
+
+ul{
+display:block;
+list-style:none;
+margin:0;
+padding:0;
+}
+
+
+/* end main menu */
+
+/* 
+.inner_copy {border:0;color:#f00;float:left;width:50% !important;margin:-100% 0 0 0;overflow:hidden;line-height:0;padding:0;font-size:11px}
+.fleft {float:left}
+.fright  {float:right}
+.fcenter {float:none;margin:0 auto;width:96%}
+.fclear {clear:both}
+
+
+#footer {height:auto;background:#00561B}
+.rss {float:right;width:212px;margin:16px 0 0 20px}
+#footer p {padding:3px;text-align:center} 
+.footerLink {color:#292b25;text-decoration:underline}
+.clearfloat {clear:both;height:0;font-size:1px;line-height:0}
+*/

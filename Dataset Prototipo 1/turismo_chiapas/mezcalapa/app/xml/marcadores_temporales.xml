@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<marcadores>
+ 
+<marcador id="47" nombre="Feria de la Candelaria" lat="16.871555" lng="-93.207834"/>
+<marcador id="48" nombre="Feria de Santa Cruz " lat="16.872849" lng="-93.206954"/>
+
+<marcador id="49" nombre="Feria Señor de Misericordia " lat="16.937577" lng="-93.090154"/>
+<marcador id="50" nombre="Feria Señor de San Lucas" lat="16.936592" lng="-93.088331"/>
+<marcador id="51" nombre="Feria de Copainala" lat="17.094464" lng="-93.210990"/>
+<marcador id="52" nombre="Feria de Santisima trinidad " lat="17.095490" lng="-93.212535"/>
+<marcador id="53" nombre="Virgen de Guadalupe" lat="17.092270" lng="-93.210904"/>
+<marcador id="54" nombre="Feria de Candelaria" lat="17.091860" lng="-93.212277"/>
+
+<marcador id="56" nombre="Feria Santo Domingo" lat="17.137067" lng="-93.310090"/>
+<marcador id="57" nombre="Feria de San Marcos" lat="17.136082" lng="-93.309983"/>
+<marcador id="58" nombre="Torneo Charro San Marcos " lat="17.140265" lng="-93.315504"/>
+<marcador id="59" nombre="Rodeos" lat="17.139961" lng="-93.316027"/>
+<marcador id="60" nombre="Carnaval Zoque Coiteco" lat="16.765266" lng="-93.376286"/>
+<marcador id="61" nombre="Virgen de la Asuncion" lat="16.766011" lng="-93.373619"/>
+<marcador id="62" nombre="Torneo Charro" lat="16.769488" lng="-93.386144"/></marcadores>

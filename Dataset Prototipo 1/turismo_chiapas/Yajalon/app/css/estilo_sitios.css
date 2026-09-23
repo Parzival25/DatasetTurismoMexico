@@ -1,0 +1,255 @@
+img{
+    border: none;
+    
+}
+
+
+/*contenedores sitios*/
+
+#agua_azul{
+ width:700px;   
+}
+#cotorras{
+ width:700px;   
+}
+#misolha{
+ width:700px;   
+}
+#montebello{
+ width:700px;   
+}
+
+#museodominguez{
+ width:700px;   
+}
+#palenque{
+ width:700px;   
+}
+#sancristobal{
+ width:700px;   
+}
+#tapachula{
+ width:700px;   
+}
+#guacamayas{
+ width:700px;   
+}
+#catazaja{
+ width:700px;   
+}
+#colon{
+ width:700px;   
+}
+#miramar{
+    width: 700px
+}
+#aguacero{
+ width:700px;   
+}
+#grijalva{
+ width:700px;   
+}
+#chiflon{
+ width:700px;   
+}
+#tonina{
+ width:700px;   
+}
+#bonampak{
+ width:700px;   
+}
+#tenampuente{
+ width:700px;   
+}
+#encrucijada{
+ width:700px;   
+}
+#angostura{
+ width:700px;   
+}
+#chicoasen{
+ width:700px;   
+}
+
+#domingo{
+ width:700px;   
+}
+#rosario{
+ width:700px;   
+}
+#puertobhiapas{
+ width:700px;   
+}
+#puertoarista{
+ width:700px;   
+}
+@font-face {
+   font-family: 'SourceSansPro-Regular';
+   src: url(../fonts/SourceSansPro-Regular.ttf) format('truetype');
+}
+@font-face {
+   font-family: 'LobsterTwo-Bold';
+   src: url(../fonts/LobsterTwo-Bold.ttf) format('truetype');
+}
+@font-face {
+   font-family: 'LobsterTwo-Regular';
+   src: url(../fonts/LobsterTwo-Regular.ttf) format('truetype');
+}
+
+/*titulo modal*/
+#titulo{
+  font-weight:700;
+  text-align:center;   
+  color:#0B4C5F;
+  font-family: 'LobsterTwo-Regular';
+  font-size: 20px;
+  padding:15px 0 15px 0;
+}
+
+/*informacion tabs*/
+/*tabs*/
+ul.tabs {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 32px;
+	border-bottom: 1px solid white;
+	border-left: 1px solid white;
+	width: 100%;
+        border-radius:10px 10px 0 0;  
+        -moz-border-radius:10px 10px 0 0;  
+        -webkit-border-radius:10px 10px 0 0;
+            margin-left: 5px;
+}
+ul.tabs li {   
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 31px;
+	line-height: 31px;
+	border: 1px solid white;
+	border-left: none;
+	margin-bottom: -1px;
+	overflow: hidden;
+	position: relative;
+	background:#F43C60;
+        border-radius:10px 10px 0 0;  
+        -moz-border-radius:10px 10px 0 0;  
+        -webkit-border-radius:10px 10px 0 0;
+        
+}
+        
+ul.tabs li a {
+	text-decoration: none;
+	display: block;
+	font-size: 1em;
+	padding: 0 20px;
+	border: 1px solid #fff;
+	outline: none;     
+        border-radius:10px 10px 0 0;  
+        -moz-border-radius:10px 10px 0 0;  
+        -webkit-border-radius:10px 10px 0 0;
+         
+        
+}
+ul.tabs li a:hover {
+	background: #F78181; /*#0B6121*/
+}
+
+html ul.tabs li.active, html ul.tabs li.active a:hover  {
+	background:#8A0870;
+	border-bottom: 1px solid white;
+}
+ /*contenido de los tabs*/
+ .tab_container {
+        margin-left: 5px;
+	border: 1px solid white;
+	border-top: none;
+	overflow: hidden;
+	clear: both;
+	float: left; 
+        width: 100%;
+	background:#8A0870;
+}
+.tab_content {
+ padding:10px;
+ color:white; 
+ font-size:13px;
+ text-align: justify;
+ font-family: Arial,Helvetica,sans-serif;
+}
+
+/*Galeria de Imagenes*/
+.fondo{
+   margin:0 auto;
+   width:600px;
+   height:280px;  
+   text-align: center;
+   background:#f3e2a9;
+   border: 3px solid #8A0870;
+   -moz-border-radius: 40px;
+   -webkit-border-radius: 400px;
+   border-radius: 40px;
+}
+
+.fondo p {
+ color: #8A0870;
+ font-family:sans-serif;
+ font-size: 12px;
+ border-bottom: 1px dashed #666;
+}
+
+.container {
+   margin:0 auto;
+   width:500px;
+   padding: .5em .5em 0 .5em;
+   text-align: center;
+   background:none;
+   height: auto;
+}
+
+.thumb img {
+ border: 3px solid  #ccc;
+ margin: 0 3px 5px 3px;
+ width:60px; 
+ height:60px; 
+}
+
+
+.thumb:hover img {
+  border: 2px solid #8A0870;
+}
+
+
+.thumb span {
+ position: absolute;
+ top: 0px;
+ left: -1000px;
+ visibility: hidden;
+ color:#fc7;
+ font-family: sans-serif;
+ font-size:12px;
+ margin-top: -40px;
+   
+}
+
+.thumb:hover span {
+   background-color: #8A0870;
+   visibility: visible;
+   right:0;
+   top:90px;
+   left:0px;
+   z-index: 50;
+   margin: 0 auto;
+   width:600px;
+   border-radius: 0px 0px 40px 40px;
+}
+
+.thumb span img{ 
+   width:290px;
+   height:160px; 
+   border: 1px solid #000;
+   padding: 5px 5px 5px 5px;
+   background-color: #F3E2A9;
+}

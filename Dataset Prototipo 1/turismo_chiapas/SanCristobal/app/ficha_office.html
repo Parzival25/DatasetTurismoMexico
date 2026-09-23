@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div>
+	Selecciona un sitio:
+	<select id="id_infraestructura" onchange="mostrar_sitio()">
+		<option value="1">Banamex</option>
+		<option value="2">Bancomer</option>
+		<option value="3">Banorte</option>
+		<option value="4">Bomberos</option>
+		<option value="5">CEDEM</option>
+		<option value="6">Clínica de campo</option>
+		<option value="7">Clínica de la mujer</option>
+		<option value="8">Correos de méxico</option>
+		<option value="9">Cruz roja</option>
+		<option value="10">DIF municipal</option>
+		<option value="11">Gasolinera huitepec</option>
+		<option value="12">Gasolinera olín</option>
+		<option value="13">Hospital de caridad</option>
+		<option value="14">Hodpital de las culturas</option>
+		<option value="15">HSBC</option>
+		<option value="16">IMSS</option>	
+		<option value="17">Café la parola</option>
+		<option value="18">Mercado de dulces y artesanías</option>
+		<option value="19">Mercado josé castillo tielemans</option>
+		<option value="20">Merposur</option>
+		<option value="21">Instituto nacional de migración</option>
+		<option value="22">Ministerio público</option>
+		<option value="23">Namandí</option>
+		<option value="24">Plaza de toros la coleta</option>
+		<option value="25">Policía municipal</option>	
+		<option value="26">Café Praga</option>
+		<option value="27">Restaurant continental</option>
+		<option value="28">Santander</option>
+		<option value="29">Santé café</option>
+		<option value="30">Scotiabank</option>
+		<option value="31">Secretaría de turismo</option>
+		<option value="32">Telégrafos</option>
+		<option value="33">Terminal de autobuses aexa</option>
+		<option value="34">Terminal de transportes a chamula</option>
+		<option value="35">Terminal de transportes a zinacantán</option>
+		<option value="36">Terminal OCC</option>
+		<option value="37">Restaurant tuluc</option>
+		<option value="38">Unidad administrativa</option>
+		<option value="39">Yik Café</option>
+		<option value="40">Panteón Municipal</option>		
+	</select>
+</div>
+
+<script type="text/javascript">
+
+function mostrar_sitio()
+{
+	var sitio_seleccionado = document.getElementById("id_temporal");
+
+	switch(sitio_seleccionado.value)
+	{
+		case "1": archivo="at01"; break;
+		case "2": archivo="at02"; break;
+		case "3": archivo="at03"; break;
+		case "4": archivo="at04"; break;
+		case "5": archivo="at05"; break;
+		case "6": archivo="at06"; break;
+		case "7": archivo="at07"; break;
+		case "8": archivo="at08"; break;
+		case "9": archivo="at09"; break;
+		case "10": archivo="at10"; break;
+		case "11": archivo="at11"; break;
+		case "12": archivo="at12"; break;
+		case "13": archivo="at13"; break;
+		case "14": archivo="at14"; break;
+		case "15": archivo="at15"; break;
+		case "16": archivo="at16"; break;
+				
+	}
+
+	archivo="xml_individual/"+archivo+".xml";
+
+		var imagen = 'imagenes/geo_temporal.png';
+	  	var lat, lng;
+
+		if (window.XMLHttpRequest)
+      	{// code for IE7+, Firefox, Chrome, Opera, Safari
+        	xmlhttp=new XMLHttpRequest();
+      	}
+      	else
+      	{// code for IE6, IE5
+       		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      	}
+      xmlhttp.open("GET",archivo,false);
+      xmlhttp.send();
+      xmlDoc=xmlhttp.responseXML;
+	  
+	  // tranferir datos del xml de marcadores a variables para el mapa
+	  
+	  x=xmlDoc.getElementsByTagName("marcador");
+      for(i=0;i<x.length;i++)
+      {
+	    id = x[i].getAttribute("id");
+	    lat = parseFloat(x[i].getAttribute("lat"));
+        lng = parseFloat(x[i].getAttribute("lng"));
+		nombre = x[i].getAttribute("nombre");
+	    var location = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker( {position:location, map:map, icon:imagen, title:nombre } );
+		infoMarkers_temporal(marker, id);
+        markersArray.push(marker);
+	 }
+	}
+
+	function infoMarkers_temporal(markers, address)
+    {
+      google.maps.event.addListener(markers, 'click', function() 
+	  {
+	    $.fancybox.open({href : 'atomos_temporales/at'+address+'.html', type : 'iframe'});
+	  });
+    }
+
+    function limpiar_mapa() 
+    {
+      if (markersArray) 
+	  {
+        for (i in markersArray) 
+		{
+          markersArray[i].setMap(null);
+        }
+      } 
+    }
+</script>
+
+</body>
+</html>

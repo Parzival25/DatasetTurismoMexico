@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<marcadores>
+<marcador id="1" lng="-92.3307" lat="17.1746" nombre="Pulpitillo"/>
+
+<marcador id="2" lng="-92.3494" lat="17.2269" nombre="Puente Hidalgo"/>
+
+<marcador id="3" lng="-92.3763" lat="17.2113" nombre="Lumilia Los Patos"/>
+
+<marcador id="4" lng="-92.4172" lat="17.2651" nombre="Rio Grande"/>
+
+<marcador id="5" lng="-92.4639" lat="17.3973" nombre="Tila Limar"/>
+
+<marcador id="6" lng="-92.4014" lat="17.4187" nombre="La Preciosa"/>
+
+<marcador id="7" lng="-92.3975" lat="17.4132" nombre="Nuevo Limar"/>
+
+<marcador id="8" lng="-92.4028" lat="17.4138" nombre="Parque de Limar"/>
+
+<marcador id="9" lng="-92.3491" lat="17.5561" nombre="Poza Azul"/>
+
+<marcador id="10" lng="-92.3492" lat="17.5559" nombre="Cuevas de Salto de Agua"/>
+
+<marcador id="11" lng="-92.1053" lat="17.2156" nombre="Xanil"/>
+
+<marcador id="12" lng="-92.1145" lat="17.2591" nombre="Cascadas de Agua Azul"/>
+
+<marcador id="13" lng="-92.04" lat="17.244" nombre="Agua Clara"/>
+
+<marcador id="14" lng="-92.3246" lat="17.1715" nombre="Campo Loma Bonita"/>
+
+<marcador id="15" lng="-92.3249" lat="17.1718" nombre="Balneario Loma Bonita"/>
+
+<marcador id="16" lng="-92.3266" lat="17.1715" nombre="Futbol Rapido"/>
+
+<marcador id="17" lng="-92.322" lat="17.1655" nombre="Agua Fria"/>
+
+<marcador id="18" lng="-92.3272" lat="17.1672" nombre="Unidad Deportiva"/>
+
+<marcador id="19" lng="-92.3263" lat="17.168" nombre="Parque Infantil"/>
+
+<marcador id="20" lng="-92.3301" lat="17.1652" nombre="Los Tibios"/>
+<marcador id="21" nombre="Museo Clemencia Pérez Cruz" lat="17.1719" lng="-92.3339"/>
+<marcador id="22" nombre="Museo Sellschopp" lat="17.1739" lng="-92.3338"/>
+<marcador id="23" nombre="Auditorio Municipal" lat="17.1781" lng="-92.3314"/>
+<marcador id="24" nombre="Parroquia Santiago Apostol" lat="17.1741" lng="-92.3336"/>
+<marcador id="25" nombre="Parque Central" lat="17.174" lng="-92.3341"/>
+</marcadores>

@@ -1,0 +1,164 @@
+@import "fonts.styl"
+
+rosadito-aquel = #d39646
+marron-cito = #ad343b
+amarillo-pollito-quemado = #e3b45a
+html
+body
+	height 100%
+body 
+	font-size 16px	
+	font-family Arial
+.color1
+	background rosadito-aquel !important
+.color2
+	background marron-cito !important
+.color3
+	background amarillo-pollito-quemado !important
+.guia
+	position absolute
+	top 15%
+	right 11.4rem
+	margin-top -80px
+.option-item2
+	cursor pointer
+	list-style none
+	text-align center
+	background marron-cito
+	color white
+	border-radius 5px
+	line-height 2.3rem
+	font-size 0.8rem
+	width 7rem
+	height 2.3rem
+
+.menu
+	position absolute
+	left 0
+	top 0
+	transition 1s all
+	color white
+	.icon-menu
+		font-size 2rem
+		color marron-cito
+		padding 0.3em
+		cursor pointer
+	&.slide
+		left 15rem !important
+.control-div-categories
+	background marron-cito !important
+	width 15rem !important
+	position fixed !important
+	height 100%
+	padding 0 !important
+	top 0em !important
+	left -15rem !important
+	transition 1s all
+	&.slide
+		left 0 !important
+	.control-ui-categories
+		background marron-cito !important
+		border 0 !important
+		.control-text
+			padding 0.5rem 0
+			font-weight lighter
+			font-size 1.4em !important
+			color white
+			text-align center
+			border-bottom 1px solid #FFF
+.option-categories
+	z-index 10 !important
+	position absolute
+	top 4em !important
+	left -15rem !important
+	transition 1s all
+	&.slide
+		left 0rem !important
+	.menu_vertical_170
+		font-size 0.9rem
+		font-family Arial
+		background transparent !important
+		padding 0 !important
+		width 15rem !important
+		border 0 !important
+		color white
+		li
+			padding 0.3em 1rem
+			transition 0.5s all
+			a
+				text-decoration none !important
+				color white
+			&:hover
+				background amarillo-pollito-quemado !important
+	.menu_vertical_170_nivel_2
+		left 15rem !important
+		top 1px !important
+		background amarillo-pollito-quemado !important
+		border 0 !important
+		font-family Arial
+		width 12rem
+		p
+			text-align center
+			border-bottom 1px solid white
+		ul
+			li
+				&:hover
+					background rosadito-aquel !important
+#id_menu_categorias
+	visibility visible
+.option-select
+	position absolute
+	top 50%
+	right 3rem
+	margin-top -80px
+	transition 0.5s all
+	&.active
+		right 18rem
+	.option-item
+		cursor pointer
+		list-style none
+		text-align center
+		background marron-cito
+		color white
+		border-radius 5px
+		line-height 2.3rem
+		font-size 1.2rem
+		margin 5px 0
+		width 2.3rem
+		height 2.3rem
+		&.hide
+			background transparent
+			cursor auto
+.footer
+	position absolute !important
+	bottom 0 !important
+	left 0 !important
+	right 0 !important
+	background marron-cito
+	color white
+	.footer-text
+		padding 0.3rem 0
+		background transparent !important
+		border 0 !important
+.selects
+	position absolute
+	border-radius 5px
+	top -7em
+	right 0rem
+	padding 0.5rem
+	width 16rem
+	color white
+	transition 0.5s all
+	&.home
+		background amarillo-pollito-quemado
+		margin-top -64px
+	&.locations
+		background marron-cito
+		margin-top -22px
+	&.office
+		background rosadito-aquel
+		margin-top 20px
+	&.active
+		top 50%
+	select
+		width 18em

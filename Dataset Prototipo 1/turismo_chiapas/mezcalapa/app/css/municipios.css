@@ -1,0 +1,19 @@
+/* CSS Document */
+.content-box-blue {
+/*margin: 0 0 25px;
+overflow: hidden;
+padding: 20px;
+*/
+	margin: auto;
+	text-align: center;
+	width: 80%;
+}
+
+.content-box-blue {
+background-image: url(../imagenes/logoweb.png) repeat;
+/*background-color: #4DDB4D;*/
+border: 1px solid #afcde3;
+}
+.content-box-blue{
+opacity: 0.9;
+}

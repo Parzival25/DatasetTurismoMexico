@@ -1,0 +1,122 @@
+div.derecha
+{
+  text-align:right;
+}
+
+/* menú vertical */
+div.menu_vertical_130
+{
+  padding:0px 2px 0px 2px;  
+  background-color:#FFFFFF;
+  width:130px;
+  visibility:hidden;
+  position:absolute; /* superior izquierda del bloque que lo contiene */
+  border:2px solid #000000;
+  font-size:14px;
+  font-family:'Tahoma, Arial,sans-serif';
+}
+
+div.menu_vertical_170
+{
+  padding:0px 2px 0px 2px;  
+  background-color:#FFFFFF;
+  width:170px;
+  visibility:hidden;
+  position:absolute; /* superior izquierda del bloque que lo contiene */
+  border:2px solid #000000;
+  font-size:14px;
+  font-family:'Tahoma, Arial,sans-serif';
+}
+
+div.menu_vertical_170_nivel_2
+{
+  padding:0px 2px 0px 2px;  
+  background-color:#FFFFFF;
+  width:170px;
+  visibility:hidden;
+  position:absolute; /* superior izquierda del bloque que lo contiene */
+  left:172px;
+  top:-5px;
+  border:2px solid #000000;
+  font-size:14px;
+  font-family:'Tahoma, Arial,sans-serif';
+}
+
+ul.menu_vertical
+{
+  list-style-type:none; /* se quitan viñetas */
+  margin:0; /* se desechan los márgenes */
+  padding:0; /* se desecha la "maria luisa" */
+}
+
+a.menu_vertical:link,a.menu_vertical:visited
+{
+  display:block;
+  color:#000000;
+  background-color:#DODODO;
+  padding:0px;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+a.menu_vertical:hover,a.menu_vertical:active
+{
+  color:#0000FF;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+div.menu_simple
+{
+  padding:0px 2px 0px 2px;  
+  background-color:#FFFFFF;
+  font-size:14px;
+  font-family:'Tahoma, Arial,sans-serif';
+  border:2px solid #000000;
+  visibility:hidden; 
+}
+/* menú */
+li.menu_simple
+{
+  display:inline; /* hacer un menú horizontal con una mejor separación entre opciones a diferencia de float:left */
+  
+}
+
+ul.menu_simple
+{
+  list-style-type:none; /* eliminar viñetas */
+  margin:0;             /* eliminar margen  */
+  padding:0;            /* eliminar padding */
+}
+
+a.menu_simple:link,a.menu_simple:visited 
+{
+  background-color:#DODODO;  
+  color:#000000;
+  text-decoration:none;
+
+}
+
+a.menu_simple:hover,a.menu_simple:active
+{
+  color:#0000ff;
+  text-decoration:underline;
+}
+
+a.menu_vacuo:link,a.menu_vacuo:visited 
+{
+  background-color:#FFFFFF;  
+  color:#000000;
+  text-decoration:none;
+}
+
+a.menu_vacuo:hover,a.menu_vacuo:active
+{
+  color:#000000;
+  text-decoration:none;
+}
+
+
+
+
+
